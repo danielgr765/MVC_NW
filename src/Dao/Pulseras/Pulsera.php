@@ -2,11 +2,16 @@
 
 namespace Dao\Pulseras;
 
-class Pulsera
+use Dao\Table;
+
+class Pulsera extends Table
 {
     public static function getAllPulseras()
     {
-        return [
+        $sqlstr = "SELECT *FROM pulseras;";
+
+        return self::obtenerRegistros($sqlstr, []);
+        /* return [
             [
                 "sku" => "PLS001",
                 "nombre" => "Pulsera lenca de hulo en nudos",
@@ -25,6 +30,18 @@ class Pulsera
                 "precio" => 130.0,
                 "colorDominante" => "verde"
             ]
+        ];*/
+    }
+    public static function createPulsera($sku, $nombre, $color, $precio)
+    {
+        $inssql = "INSERT INTO pulseras(sku, nombre, precio, colorDominante)
+        VALUES (:sku, :nombre, :precio, :colorDominante);";
+        $params = [
+            "sku" => $sku,
+            "nombre" => $nombre,
+            "precio" => $precio,
+            "colorDominante" => $color
         ];
+        return self::executeNonQuery($inssql, $params);
     }
 }
